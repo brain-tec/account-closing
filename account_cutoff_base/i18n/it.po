@@ -3,13 +3,15 @@
 # * account_cutoff_base
 # 
 # Translators:
+# Davide Corio <enlightx@gmail.com>, 2016
 # Giacomo Grasso <giac_grasso@fastwebnet.it>, 2015
+# Marius Marolla <mariusmarolla@gmail.com>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: account-closing (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-18 13:31+0000\n"
-"PO-Revision-Date: 2015-12-18 09:04+0000\n"
+"POT-Creation-Date: 2016-08-19 22:38+0000\n"
+"PO-Revision-Date: 2016-09-09 12:25+0000\n"
 "Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: Italian (http://www.transifex.com/oca/OCA-account-closing-8-0/language/it/)\n"
 "MIME-Version: 1.0\n"
@@ -276,17 +278,17 @@ msgstr "Rateo/risconto"
 #: view:account.cutoff:account_cutoff_base.account_cutoff_tree
 #: model:ir.ui.menu,name:account_cutoff_base.cutoff_menu
 msgid "Cut-offs"
-msgstr "Fine periodo"
+msgstr "Ratei e risconti"
 
 #. module: account_cutoff_base
 #: view:res.company:account_cutoff_base.view_company_form
 msgid "Cut-offs Accounts"
-msgstr ""
+msgstr "Conti Scritture di Fine Periodo"
 
 #. module: account_cutoff_base
 #: view:res.company:account_cutoff_base.view_company_form
 msgid "Cut-offs Journals"
-msgstr ""
+msgstr "Sezionali Scritture di Fine Periodo"
 
 #. module: account_cutoff_base
 #: help:account.cutoff,message_last_post:0
@@ -302,6 +304,14 @@ msgstr "Sezionale fine periodo predefinito"
 #: field:account.cutoff.line,name:0
 msgid "Description"
 msgstr "Descrizione"
+
+#. module: account_cutoff_base
+#: field:account.cutoff,display_name:0
+#: field:account.cutoff.line,display_name:0
+#: field:account.cutoff.mapping,display_name:0
+#: field:account.cutoff.tax.line,display_name:0
+msgid "Display Name"
+msgstr "Nome da visualizzare"
 
 #. module: account_cutoff_base
 #: view:account.cutoff:account_cutoff_base.account_cutoff_filter
@@ -359,6 +369,14 @@ msgstr "Scrittura contabile fine periodo"
 #: field:account.cutoff,message_last_post:0
 msgid "Last Message Date"
 msgstr "Data ultimo messaggio"
+
+#. module: account_cutoff_base
+#: field:account.cutoff,__last_update:0
+#: field:account.cutoff.line,__last_update:0
+#: field:account.cutoff.mapping,__last_update:0
+#: field:account.cutoff.tax.line,__last_update:0
+msgid "Last Modified on"
+msgstr "Ultima modifica il"
 
 #. module: account_cutoff_base
 #: field:account.cutoff,write_uid:0 field:account.cutoff.line,write_uid:0
@@ -496,7 +514,7 @@ msgstr "Non ci sono righe di fine periodo, non è possibile creare una scrittura
 msgid ""
 "This label will be written in the 'Name' field of the Cut-off Account Move "
 "Lines and in the 'Reference' field of the Cut-off Account Move."
-msgstr ""
+msgstr "Questa etichetta verrà inserita nel campo 'Nome' delle righe relative ai Movimenti nel Conto delle Scritture di Fine Periodo e nel campo 'Riferimento' del Movimento nel Conto delle Scritture di Fine Periodo "
 
 #. module: account_cutoff_base
 #: field:account.cutoff,total_cutoff_amount:0

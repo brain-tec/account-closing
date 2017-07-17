@@ -1,0 +1,239 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# * account_invoice_accrual
+# 
+# Translators:
+# OCA Transbot <transbot@odoo-community.org>, 2016
+# Rudolf Schnapka <rs@techno-flex.de>, 2017
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-01-20 23:09+0000\n"
+"PO-Revision-Date: 2017-01-20 23:09+0000\n"
+"Last-Translator: Rudolf Schnapka <rs@techno-flex.de>, 2017\n"
+"Language-Team: German (https://www.transifex.com/oca/teams/23907/de/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Language: de\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#. module: account_invoice_accrual
+#: view:account.invoice:account_invoice_accrual.invoice_supplier_form
+msgid "Accrual"
+msgstr "Abgrenzung"
+
+#. module: account_invoice_accrual
+#: field:account.move.accrue,date:0
+msgid "Accrual Date"
+msgstr "Abgrenzungsdatum"
+
+#. module: account_invoice_accrual
+#: code:addons/account_invoice_accrual/wizard/account_move_accrue.py:139
+#, python-format
+msgid "Accrual Entries"
+msgstr "Abgrenzungspositionen"
+
+#. module: account_invoice_accrual
+#: field:account.move.accrue,journal_id:0
+msgid "Accrual Journal"
+msgstr "Abgrenzungsjournal"
+
+#. module: account_invoice_accrual
+#: field:account.invoice,accrual_move_id:0
+msgid "Accrual Journal Entry"
+msgstr "Abgrenzungs-Journalbuchung"
+
+#. module: account_invoice_accrual
+#: field:res.company,accrual_taxes:0
+msgid "Accrual On Taxes"
+msgstr "Steuerabgrenzung"
+
+#. module: account_invoice_accrual
+#: field:account.move.accrue,period_id:0
+msgid "Accrual Period"
+msgstr "Abgrenzungsperiode"
+
+#. module: account_invoice_accrual
+#: field:account.move.accrue,account_id:0
+msgid "Accrual account"
+msgstr "Abgrenzungsbetrag"
+
+#. module: account_invoice_accrual
+#: view:account.invoice:account_invoice_accrual.invoice_form
+msgid "Accrue"
+msgstr "Abgrenzen"
+
+#. module: account_invoice_accrual
+#: view:account.move.accrue:account_invoice_accrual.view_account_move_accrue
+msgid "Accrue Entries"
+msgstr "Posten abgrenzen"
+
+#. module: account_invoice_accrual
+#: model:ir.actions.act_window,name:account_invoice_accrual.act_account_move_accrue
+msgid "Accrue Invoices"
+msgstr "Rechnungen abgrenzen"
+
+#. module: account_invoice_accrual
+#: view:account.move.accrue:account_invoice_accrual.view_account_move_accrue
+msgid "Cancel"
+msgstr "Abbrechen"
+
+#. module: account_invoice_accrual
+#: help:account.invoice,to_be_reversed:0
+msgid "Check this box if your entry has to bereversed at the end of period."
+msgstr ""
+"Wähle diese Box an, wenn Ihr Journal am Periodenende umgekehrt werden muss."
+
+#. module: account_invoice_accrual
+#: model:ir.model,name:account_invoice_accrual.model_res_company
+msgid "Companies"
+msgstr "Unternehmen"
+
+#. module: account_invoice_accrual
+#: view:account.move.accrue:account_invoice_accrual.view_account_move_accrue
+msgid "Create accrual journal entries"
+msgstr "Abgrenzungs-Journalposten anlegen"
+
+#. module: account_invoice_accrual
+#: model:ir.model,name:account_invoice_accrual.model_account_move_accrue
+msgid "Create accrual of draft invoices"
+msgstr "Abgrenzung aus Rechnungsentwürfen anlegen"
+
+#. module: account_invoice_accrual
+#: field:account.move.accrue,create_uid:0
+msgid "Created by"
+msgstr "Erstellt von"
+
+#. module: account_invoice_accrual
+#: field:account.move.accrue,create_date:0
+msgid "Created on"
+msgstr "Erstellt am:"
+
+#. module: account_invoice_accrual
+#: field:account.move.accrue,display_name:0
+msgid "Display Name"
+msgstr "Anzeigename"
+
+#. module: account_invoice_accrual
+#: help:account.move.accrue,date:0
+msgid ""
+"Enter the date of the accrual account entries. By default, Odoo proposes the"
+" last day of the previous month."
+msgstr ""
+"Geben Sie das Datum der Abgrenzungsposten an. Per Vorgabe schlägt Odoo den "
+"letzten Tag des Vormonats vor."
+
+#. module: account_invoice_accrual
+#: field:account.move.accrue,move_prefix:0
+msgid "Entries Ref. Prefix"
+msgstr "Ref.-Präfix des Eintrags"
+
+#. module: account_invoice_accrual
+#: field:account.move.accrue,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: account_invoice_accrual
+#: help:account.move.accrue,period_id:0
+msgid "If empty, take the period of the date."
+msgstr "Wenn leer, wird die Periode des Datums verwendet."
+
+#. module: account_invoice_accrual
+#: model:ir.model,name:account_invoice_accrual.model_account_invoice
+msgid "Invoice"
+msgstr "Rechnung"
+
+#. module: account_invoice_accrual
+#: model:ir.model,name:account_invoice_accrual.model_account_invoice_line
+msgid "Invoice Line"
+msgstr "Rechnungsposition"
+
+#. module: account_invoice_accrual
+#: field:account.move.accrue,move_line_prefix:0
+msgid "Items Name Prefix"
+msgstr "Elementnamen-Präfix"
+
+#. module: account_invoice_accrual
+#: field:account.move.accrue,__last_update:0
+msgid "Last Modified on"
+msgstr "Zuletzt geändert am"
+
+#. module: account_invoice_accrual
+#: field:account.move.accrue,write_uid:0
+msgid "Last Updated by"
+msgstr "Zuletzt aktualisiert von"
+
+#. module: account_invoice_accrual
+#: field:account.move.accrue,write_date:0
+msgid "Last Updated on"
+msgstr "Zuletzt aktualisiert am"
+
+#. module: account_invoice_accrual
+#: help:account.invoice,accrual_move_id:0
+msgid "Link to the Accrual Journal Items."
+msgstr "Verknüpfung zu Abgrenzungs-Journalposten."
+
+#. module: account_invoice_accrual
+#: code:addons/account_invoice_accrual/account_invoice.py:91
+#, python-format
+msgid "Please reverse accrual before cancelling invoice"
+msgstr "Vor Rechnungsstornos, bitte zugehörige Abgrenzung stornieren"
+
+#. module: account_invoice_accrual
+#: code:addons/account_invoice_accrual/account_invoice.py:99
+#, python-format
+msgid "Please reverse accrual before deleting invoice"
+msgstr "Vor dem Löschen von Rechnungen bitte zugehörige Abgrenzung stornieren"
+
+#. module: account_invoice_accrual
+#: help:account.move.accrue,move_prefix:0
+msgid ""
+"Prefix that will be added to the 'Ref' of the journal entry to create the "
+"'Ref' of the accrual journal entry (no space added after the prefix)."
+msgstr ""
+"Präfix, welcher dem 'Ref'-Eintrag des Journalpostens zur Eintragung des "
+"'Ref'_Eintrags im Abgrenzungsjournal (Ohne Leerzeichen) vorangestellt wird."
+
+#. module: account_invoice_accrual
+#: help:account.move.accrue,move_line_prefix:0
+msgid ""
+"Prefix that will be added to the name of the journal item to create the name"
+" of the accrual journal item (a space is added after the prefix)."
+msgstr ""
+"Präfix, der der Bezeichnung des Journalpostens, zur Erstellung der "
+"jeweiligen Abgrenzungsbezeichnung, (unter Ergänzung mit einem Leerzeichen) "
+"vorangestellt wird."
+
+#. module: account_invoice_accrual
+#: code:addons/account_invoice_accrual/account_invoice.py:77
+#: code:addons/account_invoice_accrual/account_invoice.py:78
+#, python-format
+msgid "REV - "
+msgstr "UMK - "
+
+#. module: account_invoice_accrual
+#: view:account.invoice:account_invoice_accrual.invoice_form
+#: view:account.invoice:account_invoice_accrual.invoice_supplier_form
+msgid "Reverse Accrual"
+msgstr "Abgrenzungsumkehr"
+
+#. module: account_invoice_accrual
+#: view:account.move.accrue:account_invoice_accrual.view_account_move_accrue
+msgid ""
+"This will create accrual for all selected draft invoices without accrual "
+"journal entries"
+msgstr ""
+"Dies erstellt eine Abgrenzung für alle Rechnungsentwürfe ohne Abgrenzungs-"
+"Journalposten"
+
+#. module: account_invoice_accrual
+#: field:account.invoice,to_be_reversed:0
+msgid "To be reversed"
+msgstr "Rückzubuchen"
+
+#. module: account_invoice_accrual
+#: view:account.move.accrue:account_invoice_accrual.view_account_move_accrue
+msgid "or"
+msgstr "oder"
