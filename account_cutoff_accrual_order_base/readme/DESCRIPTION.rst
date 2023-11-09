@@ -20,3 +20,5 @@ Once the cutoff accounting entries are generated you cannot create or modify
 invoices before the accounting cutoff date.
 Nevertheless, you can still reset to draft a supplier invoice but you won't be
 able to modify any amount. You are then supposed to re-validate the invoice.
+
+Warning: This module is replacing account_cutoff_picking and is incompatible with it.
