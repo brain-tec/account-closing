@@ -256,5 +256,6 @@ class OrderLineCutoffAccrualMixin(models.AbstractModel):
                     lambda line: line.parent_id.state != "done"
                 ).unlink()
             else:
-                self._update_cutoff_accrual()
+                for rec in self:
+                    rec._update_cutoff_accrual()
         return super().write(vals)
