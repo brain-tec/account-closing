@@ -34,4 +34,4 @@ class AccountMove(models.Model):
                     order_line.account_cutoff_line_ids.invalidate_recordset(
                         ["invoice_line_ids"]
                     )
-                    order_line._update_cutoff_accrual(self.date)
+                    order_line._update_cutoff_accrual(move.date)
