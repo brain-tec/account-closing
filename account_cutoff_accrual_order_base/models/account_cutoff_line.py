@@ -58,10 +58,12 @@ class AccountCutoffLine(models.Model):
                 continue
             if rec.parent_id.state == "done":
                 continue
-            if self.company_currency_id != self.currency_id:
-                currency_at_date = self.currency_id.with_context(date=self.cutoff_date)
+            if rec.company_currency_id != rec.currency_id:
+                currency_at_date = rec.currency_id.with_context(
+                    date=rec.parent_id.cutoff_date
+                )
                 rec.cutoff_amount = currency_at_date.compute(
-                    rec.amount, self.company_currency_id
+                    rec.amount, rec.company_currency_id
                 )
             else:
                 rec.cutoff_amount = rec.amount
