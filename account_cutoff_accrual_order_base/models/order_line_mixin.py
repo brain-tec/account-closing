@@ -72,8 +72,17 @@ class OrderLineCutoffAccrualMixin(models.AbstractModel):
         """Return order lines"""
         return self.browse()
 
-    def _get_cutoff_accrual_delivered_quantity(self, cutoff):
+    def _get_cutoff_accrual_delivered_service_quantity(self, cutoff):
         return NotImplemented()
+
+    def _get_cutoff_accrual_delivered_stock_quantity(self, cutoff):
+        return NotImplemented()
+
+    def _get_cutoff_accrual_delivered_quantity(self, cutoff):
+        self.ensure_one()
+        if self.product_id.detailed_type == "service":
+            return self._get_cutoff_accrual_delivered_service_quantity(cutoff)
+        return self._get_cutoff_accrual_delivered_stock_quantity(cutoff)
 
     def _get_cutoff_accrual_lines_delivered_after(self, cutoff):
         return self.browse()

@@ -58,6 +58,12 @@ class PurchaseOrderLine(models.Model):
         purchases = self.env["purchase.order"].browse(purchase_ids)
         return purchases.order_line
 
-    def _get_cutoff_accrual_delivered_quantity(self, cutoff):
+    def _get_cutoff_accrual_delivered_service_quantity(self, cutoff):
+        # By default, no cutoff on purchase. Set received as invoiced.
         self.ensure_one()
-        return self.qty_received
+        return self._get_cutoff_accrual_invoiced_quantity(cutoff)
+
+    def _get_cutoff_accrual_delivered_stock_quantity(self, cutoff):
+        # By default, no cutoff on purchase. Set received as invoiced.
+        self.ensure_one()
+        return self._get_cutoff_accrual_invoiced_quantity(cutoff)

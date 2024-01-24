@@ -37,9 +37,9 @@ class SaleOrderLine(models.Model):
             return
         return min(stock_moves.mapped("date")).date()
 
-    def _get_cutoff_accrual_delivered_quantity(self, cutoff):
+    def _get_cutoff_accrual_delivered_stock_quantity(self, cutoff):
         self.ensure_one()
-        delivered_qty = super()._get_cutoff_accrual_delivered_quantity(cutoff)
+        delivered_qty = self.qty_delivered
         # The quantity delivered on the SO line must be deducted from all
         # moves done after the cutoff date.
         cutoff_nextday = cutoff._nextday_start_dt()

@@ -38,9 +38,9 @@ class PurchaseOrderLine(models.Model):
             return
         return min(stock_moves.mapped("date")).date()
 
-    def _get_cutoff_accrual_delivered_quantity(self, cutoff):
+    def _get_cutoff_accrual_delivered_stock_quantity(self, cutoff):
         self.ensure_one()
-        received_qty = super()._get_cutoff_accrual_delivered_quantity(cutoff)
+        received_qty = self.qty_received
         # The quantity received on the PO line must be deducted from all
         # moves done after the cutoff date.
         cutoff_nextday = cutoff._nextday_start_dt()

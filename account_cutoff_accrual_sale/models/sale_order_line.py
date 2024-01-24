@@ -64,6 +64,14 @@ class SaleOrderLine(models.Model):
         sales = self.env["sale.order"].browse(sale_ids)
         return sales.order_line
 
-    def _get_cutoff_accrual_delivered_quantity(self, cutoff):
+    def _get_cutoff_accrual_delivered_service_quantity(self, cutoff):
         self.ensure_one()
+        if self.product_id.invoice_policy == "order":
+            return self.product_uom_qty
+        return self.qty_delivered
+
+    def _get_cutoff_accrual_delivered_stock_quantity(self, cutoff):
+        self.ensure_one()
+        if self.product_id.invoice_policy == "order":
+            return self.product_uom_qty
         return self.qty_delivered
