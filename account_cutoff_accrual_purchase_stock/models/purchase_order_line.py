@@ -56,7 +56,7 @@ class PurchaseOrderLine(models.Model):
         for move in in_moves:
             if move.state != "done" or move.date < cutoff_nextday:
                 continue
-            received_qty += move.product_uom._compute_quantity(
+            received_qty -= move.product_uom._compute_quantity(
                 move.product_uom_qty,
                 self.product_uom,
                 rounding_method="HALF-UP",
