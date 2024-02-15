@@ -251,3 +251,79 @@ class TestAccountCutoffAccrualPurchase(TestAccountCutoffAccrualPurchaseCommon):
             self.assertEqual(
                 line.cutoff_amount, -100 * 2 * 2, "PO line cutoff amount incorrect"
             )
+
+    def test_accrued_expense_on_po_force_invoiced_after(self):
+        """Test cutoff when PO is force invoiced after cutoff"""
+        cutoff = self.expense_cutoff
+        self._confirm_po_and_do_picking(2)
+        cutoff.get_lines()
+        self.assertEqual(len(cutoff.line_ids), 2, "2 cutoff lines should be found")
+        for line in cutoff.line_ids:
+            self.assertEqual(
+                line.cutoff_amount, -100 * 2, "PO line cutoff amount incorrect"
+            )
+        # Force invoiced after cutoff lines generated, lines should be deleted
+        self.po.force_invoiced = True
+        self.assertEqual(len(cutoff.line_ids), 0, "cutoff line should deleted")
+        # Remove Force invoiced, lines should be recreated
+        self.po.force_invoiced = False
+        self.assertEqual(len(cutoff.line_ids), 2, "2 cutoff lines should be found")
+        for line in cutoff.line_ids:
+            self.assertEqual(
+                line.cutoff_amount, -100 * 2, "PO line cutoff amount incorrect"
+            )
+
+    def test_accrued_expense_on_po_force_invoiced_before(self):
+        """Test cutoff when PO is force invoiced before cutoff"""
+        cutoff = self.expense_cutoff
+        self._confirm_po_and_do_picking(2)
+        # Force invoiced before cutoff lines generated, lines should be deleted
+        self.po.force_invoiced = True
+        cutoff.get_lines()
+        self.assertEqual(len(cutoff.line_ids), 0, "no cutoff line should be generated")
+        # Remove Force invoiced, lines should be created
+        self.po.force_invoiced = False
+        self.assertEqual(len(cutoff.line_ids), 2, "2 cutoff lines should be found")
+        for line in cutoff.line_ids:
+            self.assertEqual(
+                line.cutoff_amount, -100 * 2, "PO line cutoff amount incorrect"
+            )
+
+    def test_accrued_expense_on_po_force_invoiced_after_but_posted(self):
+        """Test cutoff when PO is force invoiced after closed cutoff"""
+        cutoff = self.expense_cutoff
+        self._confirm_po_and_do_picking(2)
+        cutoff.get_lines()
+        self.assertEqual(len(cutoff.line_ids), 2, "2 cutoff lines should be found")
+        for line in cutoff.line_ids:
+            self.assertEqual(
+                line.cutoff_amount, -100 * 2, "PO line cutoff amount incorrect"
+            )
+        cutoff.state = "done"
+        # Force invoiced after cutoff lines generated, cutoff is posted
+        self.po.force_invoiced = True
+        self.assertEqual(len(cutoff.line_ids), 2, "2 cutoff lines should be found")
+        for line in cutoff.line_ids:
+            self.assertEqual(
+                line.cutoff_amount, -100 * 2, "PO line cutoff amount incorrect"
+            )
+        # Remove Force invoiced, nothing changes
+        self.po.force_invoiced = False
+        self.assertEqual(len(cutoff.line_ids), 2, "2 cutoff lines should be found")
+        for line in cutoff.line_ids:
+            self.assertEqual(
+                line.cutoff_amount, -100 * 2, "PO line cutoff amount incorrect"
+            )
+
+    def test_accrued_expense_on_po_force_invoiced_before_but_posted(self):
+        """Test cutoff when PO is force invoiced before closed cutoff"""
+        cutoff = self.expense_cutoff
+        self._confirm_po_and_do_picking(2)
+        # Force invoiced before cutoff lines generated, lines should be deleted
+        self.po.force_invoiced = True
+        cutoff.get_lines()
+        self.assertEqual(len(cutoff.line_ids), 0, "no cutoff line should be generated")
+        cutoff.state = "done"
+        # Remove Force invoiced, lines should be created
+        self.po.force_invoiced = False
+        self.assertEqual(len(cutoff.line_ids), 0, "no cutoff line should be generated")

@@ -260,6 +260,7 @@ class OrderLineCutoffAccrualMixin(models.AbstractModel):
             self.env["account.cutoff.line"].create(values)
 
     def write(self, vals):
+        res = super().write(vals)
         if "is_cutoff_accrual_excluded" in vals:
             if vals["is_cutoff_accrual_excluded"]:
                 self.account_cutoff_line_ids.filtered(
@@ -268,4 +269,4 @@ class OrderLineCutoffAccrualMixin(models.AbstractModel):
             else:
                 for rec in self:
                     rec._update_cutoff_accrual()
-        return super().write(vals)
+        return res
