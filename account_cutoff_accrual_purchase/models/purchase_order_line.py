@@ -19,6 +19,11 @@ class PurchaseOrderLine(models.Model):
         readonly=True,
     )
 
+    def _get_cutoff_accrual_lines_domain(self):
+        domain = super()._get_cutoff_accrual_lines_domain()
+        domain.append(("order_id.state", "in", ("purchase", "done")))
+        return domain
+
     @api.model
     def _get_cutoff_accrual_lines_query(self):
         query = super()._get_cutoff_accrual_lines_query()

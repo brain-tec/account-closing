@@ -43,6 +43,7 @@ class TestAccountCutoffAccrualOrderCommon(TransactionCase):
             cls.env["stock.quant"]._update_available_quantity(
                 p, cls.stock_location, 100
             )
+        cls.products |= cls.env.ref("product.expense_product")
         # analytic account
         cls.default_plan = cls.env["account.analytic.plan"].create(
             {"name": "Default", "company_id": False}

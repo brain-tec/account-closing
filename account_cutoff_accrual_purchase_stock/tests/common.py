@@ -78,7 +78,7 @@ class TestAccountCutoffAccrualPurchaseCommon(TestAccountCutoffAccrualOrderCommon
         qties = [pol.qty_received for pol in self.po.order_line]
         self.assertEqual(
             qties,
-            [qty_done for p in self.products],
+            [qty_done if p.detailed_type == "product" else 0 for p in self.products],
             "Delivered quantities are wrong after partial delivery",
         )
 

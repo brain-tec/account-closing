@@ -25,13 +25,41 @@ class SaleOrderLine(models.Model):
     def _get_cutoff_accrual_product_qty(self):
         return self.product_uom_qty
 
+    def _get_cutoff_accrual_lines_domain(self):
+        domain = super()._get_cutoff_accrual_lines_domain()
+        domain.append(("order_id.state", "in", ("sale", "done")))
+        return domain
+
     @api.model
     def _get_cutoff_accrual_lines_query(self):
         query = super()._get_cutoff_accrual_lines_query()
-        self.flush_model(["display_type", "qty_delivered", "qty_invoiced"])
+        self.flush_model(
+            ["display_type", "product_uom_qty", "qty_delivered", "qty_invoiced"]
+        )
+        product_alias = query.left_join(
+            self._table,
+            "product_id",
+            self.env["product.product"]._table,
+            "id",
+            "product_id",
+        )
+        product_tmpl_alias = query.left_join(
+            product_alias,
+            "product_tmpl_id",
+            self.env["product.template"]._table,
+            "id",
+            "product_tmpl_id",
+        )
         query.add_where(
-            f'"{self._table}".display_type IS NULL AND '
-            f'"{self._table}".qty_delivered != "{self._table}".qty_invoiced'
+            f"""
+            "{self._table}".display_type IS NULL AND
+            CASE WHEN
+                "{self._table}".product_id IS NOT NULL
+                AND "{product_tmpl_alias}".invoice_policy = 'order'
+            THEN "{self._table}".product_uom_qty != "{self._table}".qty_invoiced
+            ELSE "{self._table}".qty_delivered != "{self._table}".qty_invoiced
+            END
+        """
         )
         return query
 
