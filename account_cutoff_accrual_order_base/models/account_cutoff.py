@@ -9,6 +9,7 @@ from dateutil.relativedelta import relativedelta
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
+from odoo.tools import split_every
 
 _logger = logging.getLogger(__name__)
 
@@ -62,19 +63,28 @@ class AccountCutoff(models.Model):
             return res
 
         model = self.env[self.order_line_model]
+        _logger.debug("Get model lines")
         line_ids = set(model.browse(model._get_cutoff_accrual_lines_query()).ids)
+        _logger.debug("Get model lines invoiced after")
         line_ids |= set(model._get_cutoff_accrual_lines_invoiced_after(self).ids)
+        _logger.debug("Get model lines delivered after")
         line_ids |= set(model._get_cutoff_accrual_lines_delivered_after(self).ids)
-        lines = model.browse(list(line_ids))
 
-        _logger.debug("Prepare cutoff lines")
-        values = []
-        for line in lines:
-            data = line._prepare_cutoff_accrual_line(self)
-            if not data:
-                continue
-            values.append(data)
-        self.env["account.cutoff.line"].create(values)
+        _logger.debug("Prepare cutoff lines per chunks")
+        # A good chunk size is per 1000. If bigger, it is not faster but memory
+        # usage increases. If too low, then it takes more cpu time.
+        for chunk in split_every(models.INSERT_BATCH_SIZE * 10, tuple(line_ids)):
+            lines = model.browse(chunk)
+            values = []
+            for line in lines:
+                data = line._prepare_cutoff_accrual_line(self)
+                if not data:
+                    continue
+                values.append(data)
+            self.env["account.cutoff.line"].create(values)
+            # free memory usage
+            self.env.invalidate_all()
+            _logger.debug("Prepare cutoff lines - next chunk")
         return res
 
     @api.model

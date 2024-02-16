@@ -22,6 +22,7 @@ class PurchaseOrderLine(models.Model):
     def _get_cutoff_accrual_lines_domain(self):
         domain = super()._get_cutoff_accrual_lines_domain()
         domain.append(("order_id.state", "in", ("purchase", "done")))
+        domain.append(("order_id.invoice_status", "!=", "invoiced"))
         return domain
 
     @api.model
