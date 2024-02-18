@@ -19,6 +19,16 @@ class PurchaseOrderLine(models.Model):
         readonly=True,
     )
 
+    is_cutoff_accrual_excluded = fields.Boolean(
+        compute="_compute_is_cutoff_accrual_excluded",
+        store=True,
+    )
+
+    @api.depends("order_id.force_invoiced")
+    def _compute_is_cutoff_accrual_excluded(self):
+        for rec in self:
+            rec.is_cutoff_accrual_excluded = rec.order_id.force_invoiced
+
     def _get_cutoff_accrual_lines_domain(self):
         domain = super()._get_cutoff_accrual_lines_domain()
         domain.append(("order_id.state", "in", ("purchase", "done")))

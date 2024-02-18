@@ -17,7 +17,17 @@ class OrderLineCutoffAccrualMixin(models.AbstractModel):
     is_cutoff_accrual_excluded = fields.Boolean(
         string="Do not generate cut-off entries",
         readonly=True,
+        inverse=lambda r: r._inverse_is_cutoff_accrual_excluded(),
     )
+
+    def _inverse_is_cutoff_accrual_excluded(self):
+        for rec in self:
+            if rec.is_cutoff_accrual_excluded:
+                rec.account_cutoff_line_ids.filtered(
+                    lambda line: line.parent_id.state != "done"
+                ).unlink()
+            else:
+                rec._update_cutoff_accrual()
 
     def _get_cutoff_accrual_partner(self):
         self.ensure_one()
@@ -262,15 +272,3 @@ class OrderLineCutoffAccrualMixin(models.AbstractModel):
             values.append(data)
         if values:
             self.env["account.cutoff.line"].create(values)
-
-    def write(self, vals):
-        res = super().write(vals)
-        if "is_cutoff_accrual_excluded" in vals:
-            if vals["is_cutoff_accrual_excluded"]:
-                self.account_cutoff_line_ids.filtered(
-                    lambda line: line.parent_id.state != "done"
-                ).unlink()
-            else:
-                for rec in self:
-                    rec._update_cutoff_accrual()
-        return res

@@ -3,6 +3,8 @@
 
 from datetime import timedelta
 
+from odoo import Command
+
 from .common import TestAccountCutoffAccrualSaleCommon
 
 
@@ -279,3 +281,26 @@ class TestAccountCutoffAccrualSale(TestAccountCutoffAccrualSaleCommon):
         # Remove Force invoiced, lines should be created
         self.so.force_invoiced = False
         self.assertEqual(len(cutoff.line_ids), 0, "no cutoff line should be generated")
+
+    def test_accrued_revenue_on_so_force_invoiced_line_added(self):
+        """Test cutoff when SO is force invoiced and line is added"""
+        cutoff = self.revenue_cutoff
+        self.so.action_confirm()
+        self.so.force_invoiced = True
+        p = self.env.ref("product.expense_product")
+        self.so.order_line = [
+            Command.create(
+                {
+                    "name": p.name,
+                    "product_id": p.id,
+                    "product_uom_qty": 1,
+                    "product_uom": p.uom_id.id,
+                    "price_unit": self.price,
+                    "tax_id": [Command.set(self.tax_sale.ids)],
+                },
+            )
+        ]
+        cutoff.get_lines()
+        self.assertEqual(len(cutoff.line_ids), 0, "0 cutoff line should be found")
+        for sol in self.so.order_line:
+            self.assertEqual(sol.is_cutoff_accrual_excluded, True)

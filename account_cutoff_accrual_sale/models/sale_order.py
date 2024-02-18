@@ -9,6 +9,7 @@ class SaleOrder(models.Model):
 
     def write(self, vals):
         res = super().write(vals)
+        # Force inverse trigger on sale.order.line is_cutoff_accrual_excluded
         if "force_invoiced" in vals:
             self.order_line.is_cutoff_accrual_excluded = vals["force_invoiced"]
         return res
