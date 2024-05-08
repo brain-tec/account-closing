@@ -35,15 +35,15 @@ class SaleOrderLine(models.Model):
     def _get_cutoff_accrual_product_qty(self):
         return self.product_uom_qty
 
-    def _get_cutoff_accrual_lines_domain(self):
-        domain = super()._get_cutoff_accrual_lines_domain()
+    def _get_cutoff_accrual_lines_domain(self, cutoff):
+        domain = super()._get_cutoff_accrual_lines_domain(cutoff)
         domain.append(("order_id.state", "in", ("sale", "done")))
         domain.append(("order_id.invoice_status", "!=", "invoiced"))
         return domain
 
     @api.model
-    def _get_cutoff_accrual_lines_query(self):
-        query = super()._get_cutoff_accrual_lines_query()
+    def _get_cutoff_accrual_lines_query(self, cutoff):
+        query = super()._get_cutoff_accrual_lines_query(cutoff)
         self.flush_model(
             ["display_type", "product_uom_qty", "qty_delivered", "qty_invoiced"]
         )
@@ -105,12 +105,20 @@ class SaleOrderLine(models.Model):
 
     def _get_cutoff_accrual_delivered_service_quantity(self, cutoff):
         self.ensure_one()
+        cutoff_nextday = cutoff._nextday_start_dt()
+        if self.create_date >= cutoff_nextday:
+            # A line added after the cutoff cannot be delivered in the past
+            return 0
         if self.product_id.invoice_policy == "order":
             return self.product_uom_qty
         return self.qty_delivered
 
     def _get_cutoff_accrual_delivered_stock_quantity(self, cutoff):
         self.ensure_one()
+        cutoff_nextday = cutoff._nextday_start_dt()
+        if self.create_date >= cutoff_nextday:
+            # A line added after the cutoff cannot be delivered in the past
+            return 0
         if self.product_id.invoice_policy == "order":
             return self.product_uom_qty
         return self.qty_delivered

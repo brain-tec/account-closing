@@ -64,7 +64,7 @@ class AccountCutoff(models.Model):
 
         model = self.env[self.order_line_model]
         _logger.debug("Get model lines")
-        line_ids = set(model.browse(model._get_cutoff_accrual_lines_query()).ids)
+        line_ids = set(model.browse(model._get_cutoff_accrual_lines_query(self)).ids)
         _logger.debug("Get model lines invoiced after")
         line_ids |= set(model._get_cutoff_accrual_lines_invoiced_after(self).ids)
         _logger.debug("Get model lines delivered after")

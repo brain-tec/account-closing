@@ -29,15 +29,15 @@ class PurchaseOrderLine(models.Model):
         for rec in self:
             rec.is_cutoff_accrual_excluded = rec.order_id.force_invoiced
 
-    def _get_cutoff_accrual_lines_domain(self):
-        domain = super()._get_cutoff_accrual_lines_domain()
+    def _get_cutoff_accrual_lines_domain(self, cutoff):
+        domain = super()._get_cutoff_accrual_lines_domain(cutoff)
         domain.append(("order_id.state", "in", ("purchase", "done")))
         domain.append(("order_id.invoice_status", "!=", "invoiced"))
         return domain
 
     @api.model
-    def _get_cutoff_accrual_lines_query(self):
-        query = super()._get_cutoff_accrual_lines_query()
+    def _get_cutoff_accrual_lines_query(self, cutoff):
+        query = super()._get_cutoff_accrual_lines_query(cutoff)
         self.flush_model(["display_type", "qty_received", "qty_invoiced"])
         query.add_where(
             f'"{self._table}".display_type IS NULL AND '

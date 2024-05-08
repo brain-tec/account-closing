@@ -81,6 +81,27 @@ class TestAccountCutoffAccrualSale(TestAccountCutoffAccrualSaleCommon):
                 line.cutoff_amount, amount, "SO line cutoff amount incorrect"
             )
 
+    def test_accrued_revenue_on_so_delivery_not_invoiced(self):
+        """Test cutoff based on SO where product_uom_qty > qty_invoiced."""
+        cutoff = self.revenue_cutoff
+        self.so.action_confirm()
+        cutoff.get_lines()
+        # 1 cutoff line for the service
+        self.assertEqual(len(cutoff.line_ids), 1, "1 cutoff line should be found")
+        delivered_qty = (
+            cutoff.line_ids.sale_line_id._get_cutoff_accrual_delivered_quantity(cutoff)
+        )
+        self.assertEqual(delivered_qty, 5, "the delivery line should be delivered")
+        # simulate a delivery service line added after cutoff date
+        cutoff.cutoff_date -= timedelta(days=1)
+        delivered_qty = (
+            cutoff.line_ids.sale_line_id._get_cutoff_accrual_delivered_quantity(cutoff)
+        )
+        self.assertEqual(delivered_qty, 0, "the delivery line should not be delivered")
+        # regenerate cutoff
+        cutoff.get_lines()
+        self.assertEqual(len(cutoff.line_ids), 0, "0 cutoff line should be found")
+
     def test_accrued_revenue_on_so_all_invoiced(self):
         """Test cutoff based on SO where product_uom_qty = qty_invoiced."""
         cutoff = self.revenue_cutoff

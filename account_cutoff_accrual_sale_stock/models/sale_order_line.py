@@ -39,10 +39,13 @@ class SaleOrderLine(models.Model):
 
     def _get_cutoff_accrual_delivered_stock_quantity(self, cutoff):
         self.ensure_one()
+        cutoff_nextday = cutoff._nextday_start_dt()
+        if self.create_date >= cutoff_nextday:
+            # A line added after the cutoff cannot be delivered in the past
+            return 0
         delivered_qty = self.qty_delivered
         # The quantity delivered on the SO line must be deducted from all
         # moves done after the cutoff date.
-        cutoff_nextday = cutoff._nextday_start_dt()
         out_moves, in_moves = self._get_outgoing_incoming_moves()
         for move in out_moves:
             if move.state != "done" or move.date < cutoff_nextday:

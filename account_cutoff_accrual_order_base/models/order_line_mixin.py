@@ -152,14 +152,14 @@ class OrderLineCutoffAccrualMixin(models.AbstractModel):
         return tax_line_ids
 
     @api.model
-    def _get_cutoff_accrual_lines_domain(self):
+    def _get_cutoff_accrual_lines_domain(self, cutoff):
         domain = []
         domain.append(("is_cutoff_accrual_excluded", "!=", True))
         return domain
 
     @api.model
-    def _get_cutoff_accrual_lines_query(self):
-        domain = self._get_cutoff_accrual_lines_domain()
+    def _get_cutoff_accrual_lines_query(self, cutoff):
+        domain = self._get_cutoff_accrual_lines_domain(cutoff)
         self._flush_search(domain)
         query = self._where_calc(domain)
         self._apply_ir_rules(query, "read")
