@@ -9,7 +9,10 @@ class SaleOrder(models.Model):
 
     def write(self, vals):
         res = super().write(vals)
-        # Force inverse trigger on sale.order.line is_cutoff_accrual_excluded
-        if "force_invoiced" in vals:
-            self.order_line.is_cutoff_accrual_excluded = vals["force_invoiced"]
+        if "force_invoiced" in vals or vals.get("invoice_status") == "to invoice":
+            # As the order could be non invoiceable while a line is invoiceable
+            # (see delivery module), we need to check each line when the order
+            # invoice status becomes "to invoice"
+            for line in self.order_line:
+                line._update_cutoff_accrual()
         return res

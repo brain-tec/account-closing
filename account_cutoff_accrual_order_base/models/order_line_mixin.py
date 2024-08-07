@@ -22,12 +22,7 @@ class OrderLineCutoffAccrualMixin(models.AbstractModel):
 
     def _inverse_is_cutoff_accrual_excluded(self):
         for rec in self:
-            if rec.is_cutoff_accrual_excluded:
-                rec.account_cutoff_line_ids.filtered(
-                    lambda line: line.parent_id.state != "done"
-                ).unlink()
-            else:
-                rec._update_cutoff_accrual()
+            rec._update_cutoff_accrual()
 
     def _get_cutoff_accrual_partner(self):
         self.ensure_one()
@@ -203,6 +198,9 @@ class OrderLineCutoffAccrualMixin(models.AbstractModel):
     def _update_cutoff_accrual(self, date=False):
         self.ensure_one()
         if self.is_cutoff_accrual_excluded:
+            self.account_cutoff_line_ids.filtered(
+                lambda line: line.parent_id.state != "done"
+            ).unlink()
             return
         for cutoff_line in self.account_cutoff_line_ids:
             cutoff = cutoff_line.parent_id

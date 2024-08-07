@@ -27,6 +27,7 @@ class SaleOrderLine(models.Model):
     @api.depends("order_id.force_invoiced")
     def _compute_is_cutoff_accrual_excluded(self):
         for rec in self:
+            # If the order is not to invoice
             rec.is_cutoff_accrual_excluded = rec.order_id.force_invoiced
 
     def _get_cutoff_accrual_partner(self):
@@ -37,42 +38,11 @@ class SaleOrderLine(models.Model):
 
     def _get_cutoff_accrual_lines_domain(self, cutoff):
         domain = super()._get_cutoff_accrual_lines_domain(cutoff)
-        domain.append(("order_id.state", "in", ("sale", "done")))
-        domain.append(("order_id.invoice_status", "!=", "invoiced"))
+        # The line could be invoiceable but not the order (see delivery
+        # module).
+        domain.append(("invoice_status", "=", "to invoice"))
+        domain.append(("order_id.invoice_status", "=", "to invoice"))
         return domain
-
-    @api.model
-    def _get_cutoff_accrual_lines_query(self, cutoff):
-        query = super()._get_cutoff_accrual_lines_query(cutoff)
-        self.flush_model(
-            ["display_type", "product_uom_qty", "qty_delivered", "qty_invoiced"]
-        )
-        product_alias = query.left_join(
-            self._table,
-            "product_id",
-            self.env["product.product"]._table,
-            "id",
-            "product_id",
-        )
-        product_tmpl_alias = query.left_join(
-            product_alias,
-            "product_tmpl_id",
-            self.env["product.template"]._table,
-            "id",
-            "product_tmpl_id",
-        )
-        query.add_where(
-            f"""
-            "{self._table}".display_type IS NULL AND
-            CASE WHEN
-                "{self._table}".product_id IS NOT NULL
-                AND "{product_tmpl_alias}".invoice_policy = 'order'
-            THEN "{self._table}".product_uom_qty != "{self._table}".qty_invoiced
-            ELSE "{self._table}".qty_delivered != "{self._table}".qty_invoiced
-            END
-        """
-        )
-        return query
 
     def _prepare_cutoff_accrual_line(self, cutoff):
         res = super()._prepare_cutoff_accrual_line(cutoff)
