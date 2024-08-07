@@ -70,9 +70,26 @@ class PurchaseOrderLine(models.Model):
         _logger.debug(
             "Purchase Invoice Lines done after cutoff: %s" % len(invoice_line_after)
         )
-        purchase_ids = set(invoice_line_after.purchase_line_id.order_id.ids)
-        purchases = self.env["purchase.order"].browse(purchase_ids)
-        return purchases.order_line
+        if not invoice_line_after:
+            return self.env["purchase.order.line"]
+        # In SQL to reduce memory usage as we could process large dataset
+        self.env.cr.execute(
+            """
+            SELECT order_id
+            FROM purchase_order_line
+            WHERE id in (
+                SELECT purchase_line_id
+                FROM account_move_line
+                WHERE id in %s
+            )
+            """,
+            (tuple(invoice_line_after.ids),),
+        )
+        purchase_ids = [x[0] for x in self.env.cr.fetchall()]
+        lines = self.env["purchase.order.line"].search(
+            [("order_id", "in", purchase_ids)], order="id"
+        )
+        return lines
 
     def _get_cutoff_accrual_delivered_service_quantity(self, cutoff):
         # By default, no cutoff on purchase. Set received as invoiced.

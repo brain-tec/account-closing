@@ -16,17 +16,25 @@ class SaleOrderLine(models.Model):
         lines = super()._get_cutoff_accrual_lines_delivered_after(cutoff)
         cutoff_nextday = cutoff._nextday_start_dt()
         # Take all moves done after the cutoff date
-        moves_after = self.env["stock.move"].search(
-            [
-                ("state", "=", "done"),
-                ("date", ">=", cutoff_nextday),
-                ("sale_line_id", "!=", False),
-            ],
-            order="id",
+        # In SQL to reduce memory usage as we could process large dataset
+        self.env.cr.execute(
+            """
+            SELECT order_id
+            FROM sale_order_line
+            WHERE id in (
+                SELECT sale_line_id
+                FROM stock_move
+                WHERE state='done'
+                  AND date >= %s
+                  AND sale_line_id IS NOT NULL
+            )
+        """,
+            (cutoff_nextday,),
         )
-        sale_ids = set(moves_after.sale_line_id.order_id.ids)
-        sales = self.env["sale.order"].browse(sale_ids)
-        lines |= sales.order_line
+        sale_ids = [x[0] for x in self.env.cr.fetchall()]
+        lines = self.env["sale.order.line"].search(
+            ["|", ("order_id", "in", sale_ids), ("id", "in", lines.ids)], order="id"
+        )
         return lines
 
     def _get_cutoff_accrual_delivered_min_date(self):

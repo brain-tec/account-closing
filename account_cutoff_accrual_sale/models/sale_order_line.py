@@ -69,9 +69,26 @@ class SaleOrderLine(models.Model):
         _logger.debug(
             "Sales Invoice Lines done after cutoff: %s" % len(invoice_line_after)
         )
-        sale_ids = set(invoice_line_after.sale_line_ids.order_id.ids)
-        sales = self.env["sale.order"].browse(sale_ids)
-        return sales.order_line
+        if not invoice_line_after:
+            return self.env["sale.order.line"]
+        # In SQL to reduce memory usage as we could process large dataset
+        self.env.cr.execute(
+            """
+            SELECT order_id
+            FROM sale_order_line
+            WHERE id in (
+                SELECT order_line_id
+                FROM sale_order_line_invoice_rel
+                WHERE invoice_line_id in %s
+            )
+            """,
+            (tuple(invoice_line_after.ids),),
+        )
+        sale_ids = [x[0] for x in self.env.cr.fetchall()]
+        lines = self.env["sale.order.line"].search(
+            [("order_id", "in", sale_ids)], order="id"
+        )
+        return lines
 
     def _get_cutoff_accrual_delivered_service_quantity(self, cutoff):
         self.ensure_one()
