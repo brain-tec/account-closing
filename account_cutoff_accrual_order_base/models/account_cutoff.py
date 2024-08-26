@@ -97,7 +97,7 @@ class AccountCutoff(models.Model):
             last_day += relativedelta(months=1)
         last_day = last_day.replace(day=1)
         last_day -= relativedelta(days=1)
-        cutoff = self.create(
+        cutoff = self.with_context(default_cutoff_type=cutoff_type).create(
             {
                 "cutoff_date": last_day,
                 "cutoff_type": cutoff_type,
