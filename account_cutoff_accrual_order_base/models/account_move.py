@@ -26,7 +26,7 @@ class AccountMove(models.Model):
         for move in self:
             if not move.is_invoice():
                 continue
-            for model_order_lines in move._get_cutoff_accrual_order_lines():
+            for model_order_lines in move.sudo()._get_cutoff_accrual_order_lines():
                 for order_line in model_order_lines:
                     # In case invoice lines have been created and posted in one
                     # transaction, we need to clear the cache of invoice lines

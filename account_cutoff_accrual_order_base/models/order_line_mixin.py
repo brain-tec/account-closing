@@ -22,7 +22,7 @@ class OrderLineCutoffAccrualMixin(models.AbstractModel):
 
     def _inverse_is_cutoff_accrual_excluded(self):
         for rec in self:
-            rec._update_cutoff_accrual()
+            rec.sudo()._update_cutoff_accrual()
 
     def _get_cutoff_accrual_partner(self):
         self.ensure_one()
@@ -249,7 +249,7 @@ class OrderLineCutoffAccrualMixin(models.AbstractModel):
         else:
             # When is_cutoff_accrual_excluded is removed
             domain.append(("state", "!=", "done"))
-        cutoffs = self.env["account.cutoff"].search(domain)
+        cutoffs = self.env["account.cutoff"].sudo().search(domain)
         values = []
         for cutoff in cutoffs:
             data = self._prepare_cutoff_accrual_line(cutoff)
@@ -270,4 +270,4 @@ class OrderLineCutoffAccrualMixin(models.AbstractModel):
                 )
             values.append(data)
         if values:
-            self.env["account.cutoff.line"].create(values)
+            self.env["account.cutoff.line"].sudo().create(values)
