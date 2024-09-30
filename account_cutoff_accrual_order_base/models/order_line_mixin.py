@@ -236,6 +236,7 @@ class OrderLineCutoffAccrualMixin(models.AbstractModel):
             ),
             ("cutoff_type", "in", ("accrued_expense", "accrued_revenue")),
             ("order_line_model", "=", self._name),
+            ("company_id", "=", self.company_id.id),
         ]
         if date:
             # When invoice is updated
