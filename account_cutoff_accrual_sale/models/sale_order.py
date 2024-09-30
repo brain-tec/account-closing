@@ -14,5 +14,5 @@ class SaleOrder(models.Model):
             # (see delivery module), we need to check each line when the order
             # invoice status becomes "to invoice"
             for line in self.order_line:
-                line._update_cutoff_accrual()
+                line.sudo()._update_cutoff_accrual()
         return res
