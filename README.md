@@ -1,4 +1,7 @@
 
+[![Support the OCA](https://odoo-community.org/readme-banner-image)](https://odoo-community.org/get-involved?utm_source=repo-readme)
+
+# account-closing
 [![Runboat](https://img.shields.io/badge/runboat-Try%20me-875A7B.png)](https://runboat.odoo-community.org/builds?repo=OCA/account-closing&target_branch=16.0)
 [![Pre-commit Status](https://github.com/OCA/account-closing/actions/workflows/pre-commit.yml/badge.svg?branch=16.0)](https://github.com/OCA/account-closing/actions/workflows/pre-commit.yml?query=branch%3A16.0)
 [![Build Status](https://github.com/OCA/account-closing/actions/workflows/test.yml/badge.svg?branch=16.0)](https://github.com/OCA/account-closing/actions/workflows/test.yml?query=branch%3A16.0)
@@ -7,9 +10,7 @@
 
 <!-- /!\ do not modify above this line -->
 
-# account-closing
-
-{'TODO': 'add repo description.'}
+Odoo Accountant closing tools
 
 <!-- /!\ do not modify below this line -->
 
@@ -35,7 +36,7 @@ addon | version | maintainers | summary
 [account_fiscal_year_closing](account_fiscal_year_closing/) | 16.0.1.0.0 |  | Generic fiscal year closing wizard
 [account_invoice_start_end_dates](account_invoice_start_end_dates/) | 16.0.1.5.0 | <a href='https://github.com/alexis-via'><img src='https://github.com/alexis-via.png' width='32' height='32' style='border-radius:50%;' alt='alexis-via'/></a> | Adds start/end dates on invoice/move lines
 [account_invoice_start_end_dates_move](account_invoice_start_end_dates_move/) | 16.0.1.0.0 |  | Add the possibility to choose start and end dates on account invoice.
-[account_multicurrency_revaluation](account_multicurrency_revaluation/) | 16.0.1.0.1 |  | Manage revaluation for multicurrency environment
+[account_multicurrency_revaluation](account_multicurrency_revaluation/) | 16.0.1.0.2 |  | Manage revaluation for multicurrency environment
 
 [//]: # (end addons)
 
