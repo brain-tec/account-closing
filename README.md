@@ -1,4 +1,7 @@
 
+[![Support the OCA](https://odoo-community.org/readme-banner-image)](https://odoo-community.org/get-involved?utm_source=repo-readme)
+
+# account-closing
 [![Runboat](https://img.shields.io/badge/runboat-Try%20me-875A7B.png)](https://runboat.odoo-community.org/builds?repo=OCA/account-closing&target_branch=19.0)
 [![Pre-commit Status](https://github.com/OCA/account-closing/actions/workflows/pre-commit.yml/badge.svg?branch=19.0)](https://github.com/OCA/account-closing/actions/workflows/pre-commit.yml?query=branch%3A19.0)
 [![Build Status](https://github.com/OCA/account-closing/actions/workflows/test.yml/badge.svg?branch=19.0)](https://github.com/OCA/account-closing/actions/workflows/test.yml?query=branch%3A19.0)
@@ -6,8 +9,6 @@
 [![Translation Status](https://translation.odoo-community.org/widgets/account-closing-19-0/-/svg-badge.svg)](https://translation.odoo-community.org/engage/account-closing-19-0/?utm_source=widget)
 
 <!-- /!\ do not modify above this line -->
-
-# account-closing
 
 account-closing
 
@@ -21,7 +22,7 @@ Available addons
 ----------------
 addon | version | maintainers | summary
 --- | --- | --- | ---
-[account_fiscal_year_closing](account_fiscal_year_closing/) | 19.0.1.0.1 |  | Generic fiscal year closing wizard
+[account_fiscal_year_closing](account_fiscal_year_closing/) | 19.0.1.0.2 |  | Generic fiscal year closing wizard
 [account_invoice_start_end_dates](account_invoice_start_end_dates/) | 19.0.1.0.0 | <a href='https://github.com/alexis-via'><img src='https://github.com/alexis-via.png' width='32' height='32' style='border-radius:50%;' alt='alexis-via'/></a> | Adds start/end dates on invoice/move lines
 
 [//]: # (end addons)
